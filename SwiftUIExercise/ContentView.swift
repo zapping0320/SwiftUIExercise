@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    let genderType = ["남성","여성","비밀"]
     
     @State var name = ""
     @State var age = ""
+    @State var bornIn = 0
+    @State var gender = 0
     
     var body: some View {
         NavigationView{
@@ -24,11 +27,38 @@ struct ContentView: View {
                         .keyboardType(.numberPad) // number형식의 키보드를 보여줍니다.
                     
                 }
-                Section{
-                    Text("\(name)님의 나이는 \(age)살입니다. ")
+                Section(header: Text("생년월일")){
+                    //선택하는 값을 bornIn 변수에 할당합니다.
+                    Picker("출생년도",selection: $bornIn){
+                        // 1900부터 2018까지 Text를 만듭니다.
+                        ForEach(1900 ..< 2019 ){
+                            Text("\(String($0))년생")
+                        }
+                    }
                 }
+                Section(header: Text("성별")){
+                    //선택하는 값을 bornIn 변수에 할당합니다.
+                    Picker("성별",selection: $gender){
+                        // 1900부터 2018까지 Text를 만듭니다.
+                        ForEach( 0  ..< genderType.count ){
+                            Text("\(self.genderType[$0])")
+                        }
+                    }.pickerStyle(SegmentedPickerStyle())
+                }
+                Section(header: Text("결과")){
+                    Text("\(resultScript)")
+                  }
+                
             }.navigationBarTitle("회원가입")
         }
+    }
+    
+    var resultScript:String{
+      if(name.isEmpty){
+        return "이름을 입력해주세요."
+      }else{
+        return "\(name)님은 성별이 \(genderType[gender])이며 나이는 \(120 - bornIn)입니다."
+      }
     }
 }
 
