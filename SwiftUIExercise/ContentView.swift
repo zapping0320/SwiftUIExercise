@@ -15,6 +15,8 @@ struct ContentView: View {
     @State var bornIn = 0
     @State var gender = 0
     
+    @State var isPresent: Bool = false
+    
     var body: some View {
         NavigationView{
             Form{
@@ -47,7 +49,19 @@ struct ContentView: View {
                 }
                 Section(header: Text("결과")){
                     Text("\(resultScript)")
-                  }
+                }
+                Button(action:
+                        {
+                            self.isPresent = true
+                            print("\(resultScript) - 회원 가입 처리합니다")
+                        }
+                       , label: {
+                        Text("가입하기")
+                       }).alert(isPresented: $isPresent, content: {
+                        Alert(title: Text("회원가입"), message: Text("처리 하였습니다!"), dismissButton: .default(Text("OK")))
+                        
+                       })
+                
                 
             }.navigationBarTitle("회원가입")
         }
